@@ -2,8 +2,10 @@ PROJECT_NAME     := ble_app_blinky_pca10040_s132
 TARGETS          := nrf52832_xxaa
 OUTPUT_DIRECTORY := _build
 
-SDK_ROOT := ../../../../../..
+SDK_ROOT := $(NRF_SDK)
 PROJ_DIR := ../../..
+
+NRFJPROG=$(NRF_TOOLS)/nrfjprog -s $(PCA10040_SN)
 
 $(OUTPUT_DIRECTORY)/nrf52832_xxaa.out: \
   LINKER_SCRIPT  := ble_app_blinky_gcc_nrf52.ld
@@ -197,9 +199,11 @@ INC_FOLDERS += \
 LIB_FILES += \
 
 # Optimization flags
-OPT = -O3 -g3
+#OPT = -O3 -g3
 # Uncomment the line below to enable link time optimization
 #OPT += -flto
+
+OPT = -O0 -g
 
 # C flags common to all targets
 CFLAGS += $(OPT)
@@ -263,7 +267,9 @@ LIB_FILES += -lc -lnosys -lm
 .PHONY: default help
 
 # Default target - first one defined
-default: nrf52832_xxaa
+default: echo_build nrf52832_xxaa
+
+clean: echo_clean
 
 # Print all targets that can be built
 help:
@@ -282,20 +288,26 @@ $(foreach target, $(TARGETS), $(call define_target, $(target)))
 
 .PHONY: flash flash_softdevice erase
 
+echo_build:
+	@echo Building: $(TARGETS)
+
+echo_clean:
+	@echo Cleaning: $(TARGETS)
+
 # Flash the program
 flash: $(OUTPUT_DIRECTORY)/nrf52832_xxaa.hex
 	@echo Flashing: $<
-	nrfjprog -f nrf52 --program $< --sectorerase
-	nrfjprog -f nrf52 --reset
+	$(NRFJPROG) -f nrf52 --program $< --sectorerase
+	$(NRFJPROG) -f nrf52 --reset
 
 # Flash softdevice
 flash_softdevice:
 	@echo Flashing: s132_nrf52_6.0.0_softdevice.hex
-	nrfjprog -f nrf52 --program $(SDK_ROOT)/components/softdevice/s132/hex/s132_nrf52_6.0.0_softdevice.hex --sectorerase
-	nrfjprog -f nrf52 --reset
+	$(NRFJPROG) -f nrf52 --program $(SDK_ROOT)/components/softdevice/s132/hex/s132_nrf52_6.0.0_softdevice.hex --sectorerase
+	$(NRFJPROG) -f nrf52 --reset
 
 erase:
-	nrfjprog -f nrf52 --eraseall
+	$(NRFJPROG) -f nrf52 --eraseall
 
 SDK_CONFIG_FILE := ../config/sdk_config.h
 CMSIS_CONFIG_TOOL := $(SDK_ROOT)/external_tools/cmsisconfig/CMSIS_Configuration_Wizard.jar

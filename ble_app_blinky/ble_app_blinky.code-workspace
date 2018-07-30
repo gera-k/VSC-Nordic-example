@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+                        "name": "BLE Example Blinky",
+			"path": "."
+		},
+		{
+                        "name": "PCA10056/s140",
+			"path": "pca10056/s140/armgcc"
+		},
+		{
+                        "name": "PCA10040/s132",
+			"path": "pca10040/s132/armgcc"
+		}
+	]
+}

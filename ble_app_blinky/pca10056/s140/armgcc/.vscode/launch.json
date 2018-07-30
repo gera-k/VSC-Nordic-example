@@ -1,0 +1,39 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(gdb) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "_build/nrf52840_xxaa.out",
+            "cwd": "${workspaceFolder}",
+            "MIMode": "gdb",
+            "miDebuggerPath": "${env:GNU_GCC}/arm-none-eabi-gdb.exe",
+            "targetArchitecture": "arm",
+            "customLaunchSetupCommands": [
+                { "text": "-environment-cd ${workspaceFolder}", "description": "set cwd", "ignoreFailures": false },
+                { "text": "-file-exec-and-symbols _build/nrf52840_xxaa.out", "description": "set executable", "ignoreFailures": false },
+                { "text": "-interpreter-exec console \"set pagination off\"", "description": "set pagination off", "ignoreFailures": false },
+                { "text": "-target-select remote localhost:2331", "description": "connect target", "ignoreFailures": false },
+                { "text": "-break-insert main", "description": "break on main", "ignoreFailures": false },
+                { "text": "-interpreter-exec console \"monitor reset\"", "description": "reset target", "ignoreFailures": false },
+            ],
+            "stopAtEntry": true,
+            "miDebuggerServerAddress": "localhost:2331",
+            "debugServerPath": "${env:SEGGER_TOOLS}/JLinkGDBServerCL.exe",
+            "debugServerArgs": "-select USB=${env:PCA10056_SN} -device nRF52840_xxAA -if SWD -speed 1000 -noir",
+            "serverStarted": "Connected to target",
+//            "logging": {
+//                "engineLogging": true,
+//                "exceptions": true,
+//                "moduleLoad": true,
+//                "programOutput": true,
+//                "trace": true,
+//                "traceResponse": true
+//            }
+        }
+    ]
+}

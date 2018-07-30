@@ -2,8 +2,10 @@ PROJECT_NAME     := ble_app_blinky_pca10056_s140
 TARGETS          := nrf52840_xxaa
 OUTPUT_DIRECTORY := _build
 
-SDK_ROOT := ../../../../../..
+SDK_ROOT := $(NRF_SDK)
 PROJ_DIR := ../../..
+
+NRFJPROG=$(NRF_TOOLS)/nrfjprog -s $(PCA10056_SN)
 
 $(OUTPUT_DIRECTORY)/nrf52840_xxaa.out: \
   LINKER_SCRIPT  := ble_app_blinky_gcc_nrf52.ld
@@ -261,7 +263,10 @@ LIB_FILES += -lc -lnosys -lm
 .PHONY: default help
 
 # Default target - first one defined
-default: nrf52840_xxaa
+default: echo_build nrf52840_xxaa
+
+clean: echo_clean
+
 
 # Print all targets that can be built
 help:
@@ -280,20 +285,26 @@ $(foreach target, $(TARGETS), $(call define_target, $(target)))
 
 .PHONY: flash flash_softdevice erase
 
+echo_build:
+	@echo Building: $(TARGETS)
+
+echo_clean:
+	@echo Cleaning: $(TARGETS)
+
 # Flash the program
 flash: $(OUTPUT_DIRECTORY)/nrf52840_xxaa.hex
 	@echo Flashing: $<
-	nrfjprog -f nrf52 --program $< --sectorerase
-	nrfjprog -f nrf52 --reset
+	$(NRFJPROG) -f nrf52 --program $< --sectorerase
+	$(NRFJPROG) -f nrf52 --reset
 
 # Flash softdevice
 flash_softdevice:
 	@echo Flashing: s140_nrf52_6.0.0_softdevice.hex
-	nrfjprog -f nrf52 --program $(SDK_ROOT)/components/softdevice/s140/hex/s140_nrf52_6.0.0_softdevice.hex --sectorerase
-	nrfjprog -f nrf52 --reset
+	$(NRFJPROG) -f nrf52 --program $(SDK_ROOT)/components/softdevice/s140/hex/s140_nrf52_6.0.0_softdevice.hex --sectorerase
+	$(NRFJPROG) -f nrf52 --reset
 
 erase:
-	nrfjprog -f nrf52 --eraseall
+	$(NRFJPROG) -f nrf52 --eraseall
 
 SDK_CONFIG_FILE := ../config/sdk_config.h
 CMSIS_CONFIG_TOOL := $(SDK_ROOT)/external_tools/cmsisconfig/CMSIS_Configuration_Wizard.jar
