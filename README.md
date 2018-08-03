@@ -4,7 +4,8 @@ This repo contains Visual Studio Code configuration for ble_app_blinky example f
  - IntelliSense
  - building the app (using gcc compiler)
  - flashing the app and the softdevice
- - source-level debugging (using gdb/mi anf JLink gdb server)
+ - source-level debugging (using gdb/mi and JLink gdb server)
+ - SDK configuraion (using CMSIS Configuration Wisard included with the Nordic SDK)
 
 The repo currently contains configurations for PCA10056(nRF52840) and PCA10040(nRF52832) deb boards.
 Only Windows is currently supported.
@@ -17,6 +18,7 @@ __Tools required:__
  - [Segger JLink tools](https://www.segger.com/downloads/jlink/)
  - [GCC Cross-compiler/debugger](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads)
  - [GNU Build tools](https://github.com/gnu-mcu-eclipse/windows-build-tools/releases)
+ - [Java](https://java.com/en/)
  
  __Setup__
  - Clone this repo
@@ -31,13 +33,14 @@ and two hw-specific folders PCA10040 and PCA10056.
 Open the main.c and verify that IntelliSense has found all header files. Go though the file and verify that you acn access
 definitios etc. Note that there are two IntelliSense configurations, one per each hw variant. 
 
-There are four tasks configured in each hw-specific folder:
+There are five tasks configured in each hw-specific folder:
  - build
  - clean
  - flash
  - flash_softdevice
+ - sdk-config
  
- Connect your dev board, run tasks and monitor the console widdow to ensure they work.
+ Connect your dev board, run tasks and monitor the console window to ensure they work.
  
  There is separate debugger configuration per each hw variant. To start the debugger, first ensure that your board flashed ok and the blinky
  app works. Switch to VcCode Debugger window, select correct configuration and start debugger. The debugger should connect to the board,
