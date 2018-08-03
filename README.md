@@ -27,6 +27,7 @@ __Tools required:__
  - edit gcc compiler settings in nRF5_SDK_15.0.0_a53641a\components\toolchain\gcc\Makefile.windows
   
 __Running the Visual Studio Code__
+
 Run the ble_app_blinky\vscode.bat. It opens VcCode workspace containing three folders - the root folder of the app (containing main.c)
 and two hw-specific folders PCA10040 and PCA10056.
 
@@ -42,7 +43,7 @@ There are five tasks configured in each hw-specific folder:
  
  Connect your dev board, run tasks and monitor the console window to ensure they work.
  
- There is separate debugger configuration per each hw variant. To start the debugger, first ensure that your board flashed ok and the blinky
+ There is a separate debugger configuration per each hw variant. To start the debugger, first ensure that your board flashed ok and the blinky
  app works. Switch to VcCode Debugger window, select correct configuration and start debugger. The debugger should connect to the board,
  reset it, and break at main(). Ensure that IntelliSense configuration matches the HW you debug.
  
