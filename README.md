@@ -3,11 +3,11 @@
 This repo contains Visual Studio Code configuration for ble_app_blinky example from Nordic SDK 15. It supports:
  - IntelliSense
  - building the app (using gcc compiler)
- - flashing the app and the softdevice
+ - flashing the app and the softdevice (using nrfjprog)
  - source-level debugging (using gdb/mi and JLink gdb server)
  - SDK configuraion (using CMSIS Configuration Wisard included with the Nordic SDK)
 
-The repo currently contains configurations for PCA10056(nRF52840) and PCA10040(nRF52832) deb boards.
+The repo contains configurations for PCA10056(nRF52840) and PCA10040(nRF52832) dev boards.
 Only Windows is currently supported.
 
 __Tools required:__
@@ -30,7 +30,7 @@ __Running the Visual Studio Code__
 Run the ble_app_blinky\vscode.bat. It opens VcCode workspace containing three folders - the root folder of the app (containing main.c)
 and two hw-specific folders PCA10040 and PCA10056.
 
-Open the main.c and verify that IntelliSense has found all header files. Go though the file and verify that you acn access
+Open the main.c and verify that IntelliSense has found all header files. Go though the file and verify that you can follow
 definitios etc. Note that there are two IntelliSense configurations, one per each hw variant. 
 
 There are five tasks configured in each hw-specific folder:
